@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/event.h>
+#include <sys/epoll.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include "include/types.h"
+#include "include/config.h"
+#include "include/server.h"
+
+int main(int argc, char *argv[]) {
+	// Initialize the server
+	Server *server = init_server();
+	if (!server) {
+		fprintf(stderr, "Failed to initialize server\n");
+		return 1;
+	}
+
+	// Start the server
+	start_server(server);
+
+	// Wait for the server to stop
+	while (!server_is_stopping(server)) {
+		sleep(1);
+	}
+
+	// Clean up
+	shutdown_server(server);
+	free_server(server);
+
+	return 0;
+}

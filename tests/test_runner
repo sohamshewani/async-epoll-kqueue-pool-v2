@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# This is a basic test runner script for async-epoll-kqueue-pool.
+# This script assumes that the required modules and dependencies are properly set up.
+
+make
+
+# Run unit tests
+./unit_tests
+
+# Run integration tests
+./integration_tests
